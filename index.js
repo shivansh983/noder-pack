@@ -1,13 +1,21 @@
 const fs = require('fs');
 const path = require('path');
+const { stringify } = require('querystring');
 
-const file  = path(__dirname,'package.json');
+const file = path.join(__dirname,"testdata.json");
 
-const data = fs.readFileSync(file,"utf-8")
+const new_data = {
+    
+    "id": 1,
+    "company": "new",
+    "role": "IT",
+    "status": "applied",
+    "appliedDate": "2026-04-13"
 
-console.log(JSON.parse(data));
-
-fs.readFile(file,"utf-8"),(err,data)=>{
-    if (err) throw err;
-    console.log(JSON.parse(data));
 }
+
+fs.writeFile(file,JSON.stringify(new_data,null,2),(err)=>{
+    if (err) throw err;
+
+    console.log("complete")
+});
