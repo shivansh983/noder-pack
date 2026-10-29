@@ -1,24 +1,24 @@
-const http = require("http");
+const express = require("express");
 
-const HOST = '127.0.0.1';
+const app = express();
+
 const PORT = 3000;
+const HOST = '127.0.0.1'
 
-const server = http.createServer((req,res)=>{
-    if (req.url==='/' && req.method==="GET"){
-        res.writeHead(200,{"content-Type": "text/plain"});        
-        res.end("running")
-    }
-    else if (req.url==='/joblist' && req.method==="GET"){
-        res.writeHead(200,{"content-Type" : "application/json"});
-        res.end(JSON.stringify({status:"OK"}))
-    }
-    else {
-    res.writeHead(404, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ error: "Not Found" }));
-}
+app.use(express.json());
 
+app.use((req,res,next)=>{
+    console.log(`${req.method} ${req.url}`);
+    next();
 });
 
-server.listen(PORT,HOST,()=>{
-console.log(`server is running at http://${HOST}:${PORT}/`);
-})
+
+app.get("/",(req,res)=>{
+    res.send("welcome")
+});
+
+app.get("/joblist",(req,res)=>{
+    res.send(`fetch list status ${req.params.id}`);
+});
+
+app.listen(PORT,HOST,()=> console.log(`server is running on host: ${HOST} and PORT: ${PORT}`))
