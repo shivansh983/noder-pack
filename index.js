@@ -1,21 +1,24 @@
-const fs = require('fs');
-const path = require('path');
-const { stringify } = require('querystring');
+const http = require("http");
 
-const file = path.join(__dirname,"testdata.json");
+const HOST = '127.0.0.1';
+const PORT = 3000;
 
-const new_data = {
-    
-    "id": 1,
-    "company": "new",
-    "role": "IT",
-    "status": "applied",
-    "appliedDate": "2026-04-13"
-
+const server = http.createServer((req,res)=>{
+    if (req.url==='/' && req.method==="GET"){
+        res.writeHead(200,{"content-Type": "text/plain"});        
+        res.end("running")
+    }
+    else if (req.url==='/joblist' && req.method==="GET"){
+        res.writeHead(200,{"content-Type" : "application/json"});
+        res.end(JSON.stringify({status:"OK"}))
+    }
+    else {
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Not Found" }));
 }
 
-fs.writeFile(file,JSON.stringify(new_data,null,2),(err)=>{
-    if (err) throw err;
-
-    console.log("complete")
 });
+
+server.listen(PORT,HOST,()=>{
+console.log(`server is running at http://${HOST}:${PORT}/`);
+})
