@@ -9,11 +9,11 @@ const server = http.createServer((req,res)=>{
         res.end("running")
     }
     else if (req.url==='/joblist' && req.method==="GET"){
-        res.writeHead(200,{"content-Type" : "application/json"});
+        res.writeHead(200,{"content-Type" : "TestData/json"});
         res.end(JSON.stringify({status:"OK"}))
     }
     else {
-    res.writeHead(404, { "Content-Type": "application/json" });
+    res.writeHead(404, { "Content-Type": "TestData/json" });
     res.end(JSON.stringify({ error: "Not Found" }));
 }
 
