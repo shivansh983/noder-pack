@@ -19,6 +19,11 @@ app.get('/',(req,res)=>{
 
 app.get('/testData',testRoutes);
 
+app.use((err,req,res,next)=>{
+    console.error(err.stack);;
+    res.status(500).json({success: false, error: "server error"});
+});
+ 
 
 app.use((err,req,res,next)=>{
     console.error(err.stack);
